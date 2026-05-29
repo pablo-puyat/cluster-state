@@ -41,18 +41,18 @@ patches:
                       resources: ["clusterroles", "clusterrolebindings"]
                       verbs: ["get", "list", "watch"]
                       resourceNames: ["traefik-extra-permissions"]
-                  - apiVersion: rbac.authorization.k8s.io/v1
-                    kind: ClusterRoleBinding
-                    metadata:
-                      name: traefik-extra-permissions
-                    roleRef:
-                      kind: ClusterRole
-                      name: traefik-extra-permissions
-                      apiGroup: rbac.authorization.k8s.io
-                    subjects:
-                      - kind: ServiceAccount
-                        name: traefik
-                        namespace: traefik
+                - apiVersion: rbac.authorization.k8s.io/v1
+                  kind: ClusterRoleBinding
+                  metadata:
+                    name: traefik-extra-permissions
+                  roleRef:
+                    kind: ClusterRole
+                    name: traefik-extra-permissions
+                    apiGroup: rbac.authorization.k8s.io
+                  subjects:
+                    - kind: ServiceAccount
+                      name: traefik
+                      namespace: traefik
               ingressRoute:
                 dashboard:
                   enabled: true
