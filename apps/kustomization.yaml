@@ -1,0 +1,105 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  # Pulls the clean, sanitized manifests from your public showcase repo
+  - github.com/pablo-puyat/infrastructure//gitops/apps?ref=main
+
+patches:
+  # Patch Traefik Application Helm values block string to restore real IP & domain
+  - patch: |
+      apiVersion: argoproj.io/v1alpha1
+      kind: Application
+      metadata:
+        name: traefik
+        namespace: argocd
+      spec:
+        source:
+          helm:
+            values: |
+              image:
+                tag: "3.6.13"
+              ingressClass:
+                enabled: true
+                isDefaultClass: true
+              extraObjects:
+                - apiVersion: rbac.authorization.k8s.io/v1
+                  kind: ClusterRole
+                  metadata:
+                    name: traefik-extra-permissions
+                  rules:
+                    - apiGroups: [""]
+                      resources: ["services", "endpoints", "secrets"]
+                      verbs: ["get", "list", "watch"]
+                    - apiGroups: ["extensions", "networking.k8s.io"]
+                      resources: ["ingresses", "ingressclasses"]
+                      verbs: ["get", "list", "watch"]
+                    - apiGroups: ["extensions", "networking.k8s.io"]
+                      resources: ["ingresses/status"]
+                      verbs: ["update"]
+                    - apiGroups: ["rbac.authorization.k8s.io"]
+                      resources: ["clusterroles", "clusterrolebindings"]
+                      verbs: ["get", "list", "watch"]
+                      resourceNames: ["traefik-extra-permissions"]
+                  - apiVersion: rbac.authorization.k8s.io/v1
+                    kind: ClusterRoleBinding
+                    metadata:
+                      name: traefik-extra-permissions
+                    roleRef:
+                      kind: ClusterRole
+                      name: traefik-extra-permissions
+                      apiGroup: rbac.authorization.k8s.io
+                    subjects:
+                      - kind: ServiceAccount
+                        name: traefik
+                        namespace: traefik
+              ingressRoute:
+                dashboard:
+                  enabled: true
+                  matchRule: Host(`callandor.tailcdecb.ts.net`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
+                  entryPoints: ["web", "websecure"]
+                  tls:
+                    secretName: callandor-tailscale-tls
+              service:
+                enabled: true
+                type: NodePort
+              additionalArguments:
+                - "--api.insecure=true"
+                - "--api.dashboard=true"
+                - "--log.level=DEBUG"
+                - "--accesslog=true"
+                - "--accesslog.format=json"
+                - "--metrics.prometheus=true"
+                - "--metrics.prometheus.entryPoint=metrics"
+                - "--providers.kubernetesingress.ingressendpoint.ip=138.201.240.46"
+              ports:
+                web:
+                  port: 80
+                  exposedPort: 80
+                  entryPoints: ["web"]
+                  redirectTo:
+                    port: websecure
+                    priority: 10
+                websecure:
+                  port: 443
+                  exposedPort: 443
+                  entryPoints: ["websecure"]
+                  tls:
+                    enabled: true
+                metrics:
+                  port: 8082
+                  exposedPort: 8082
+                  entryPoints: ["metrics"]
+              providers:
+                kubernetesCRD:
+                  enabled: true
+                  allowCrossNamespace: true
+                kubernetesIngress:
+                  enabled: true
+                  allowCrossNamespace: true
+                  publishedService:
+                    enabled: true
+              globalArguments: []
+    target:
+      kind: Application
+      name: traefik
