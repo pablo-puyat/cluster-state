@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     # Points to your private state repository
-    repoURL: 'git@github.com:pablo-puyat/cluster-state.git'
+    repoURL: 'ssh://git@ssh.github.com:443/pablo-puyat/cluster-state.git'
     targetRevision: main
     path: apps
   destination:
