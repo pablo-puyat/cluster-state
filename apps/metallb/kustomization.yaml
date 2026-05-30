@@ -15,9 +15,8 @@ patches:
       - op: replace
         path: /spec/addresses
         value:
-          - 138.201.240.46/32 # Dedicated strictly to public apps like cbrz
+          - 138.201.240.46/32
 
-  # Add a second explicit pool dedicated entirely to your internal administration network
   - target:
       version: v1beta1
       group: metallb.io
@@ -25,11 +24,7 @@ patches:
       name: tailscale-ip-pool
       namespace: metallb-system
     patch: |
-      apiVersion: metallb.io/v1beta1
-      kind: IPAddressPool
-      metadata:
-        name: tailscale-ip-pool
-        namespace: metallb-system
-      spec:
-        addresses:
+      - op: replace
+        path: /spec/addresses
+        value:
           - 100.70.15.42/32
