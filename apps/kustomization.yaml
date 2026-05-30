@@ -2,55 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - github.com/pablo-puyat/infrastructure//gitops/apps?ref=feat-monitoring
-
-patches:
-  # 1. Patch Traefik to use your private Tailscale domain & certificates
-  - target:
-      kind: Application
-      name: traefik
-    patch: |
-      apiVersion: argoproj.io/v1alpha1
-      kind: Application
-      metadata:
-        name: traefik
-        namespace: argocd
-      spec:
-        source:
-          helm:
-            values: |
-              ingressRoute:
-                dashboard:
-                  matchRule: Host(`callandor.tailcdecb.ts.net`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
-                  tls:
-                    secretName: callandor-tailscale-tls
-
-  # 2. Keep your monitoring app pointing to your private cluster state repo
-  - target:
-      kind: Application
-      name: monitoring
-    patch: |
-      apiVersion: argoproj.io/v1alpha1
-      kind: Application
-      metadata:
-        name: monitoring
-        namespace: argocd
-      spec:
-        source:
-          repoURL: 'ssh://git@ssh.github.com:443/pablo-puyat/cluster-state.git'
-          targetRevision: main
-          path: apps/monitoring
-
-  # 3. Inject your specific bare-metal and Tailscale node IPs into MetalLB
-  - target:
-      version: v1beta1
-      group: metallb.io
-      kind: IPAddressPool
-      name: host-ip-pool
-      namespace: metallb-system
-    patch: |
-      - op: replace
-        path: /spec/addresses
-        value:
-          - 138.201.240.46/32
-          - 100.70.15.42/32
+  - apps/traefik
+  - apps/metallb
+  - apps/monitoring

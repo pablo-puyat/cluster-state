@@ -21,3 +21,4 @@ patches:
       kind: Ingress
       name: grafana-ingress
       namespace: monitoring
+
