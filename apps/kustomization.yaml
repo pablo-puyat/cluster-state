@@ -27,7 +27,7 @@ patches:
                     name: traefik-extra-permissions
                   rules:
                     - apiGroups: [""]
-                      resources: ["services", "endpoints", "secrets", "configmaps"]
+                      resources: ["services", "endpoints", "secrets", "configmaps", "nodes"]
                       verbs: ["get", "list", "watch"]
                     - apiGroups: ["discovery.k8s.io"]
                       resources: ["endpointslices"]
@@ -73,6 +73,7 @@ patches:
                 - "--metrics.prometheus=true"
                 - "--metrics.prometheus.entryPoint=metrics"
                 - "--providers.kubernetesingress.ingressendpoint.ip=138.201.240.46"
+                - "--providers.kubernetesingress.ingressclass=traefik"
               ports:
                 web:
                   port: 80
