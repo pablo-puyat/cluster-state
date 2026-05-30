@@ -2,11 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  # Pulls the clean, sanitized manifests from your public showcase repo
-  - github.com/pablo-puyat/infrastructure//gitops/apps?ref=main
+  - github.com/pablo-puyat/infrastructure//gitops/apps?ref=feat-monitoring
 
 patches:
-  # Patch Traefik Application Helm values block string to restore real IP & domain
   - patch: |
       apiVersion: argoproj.io/v1alpha1
       kind: Application
@@ -103,3 +101,20 @@ patches:
     target:
       kind: Application
       name: traefik
+
+  - patch:
+      - op: replace
+        path: /spec/tls/0/hosts/0
+        value: "callandor.tailcdecb.ts.net"
+      - op: replace
+        path: /spec/tls/0/secretName
+        value: "callandor-tailscale-tls"
+      - op: replace
+        path: /spec/rules/0/host
+        value: "callandor.tailcdecb.ts.net"
+    target:
+      group: networking.k8s.io
+      version: v1
+      kind: Ingress
+      name: grafana-ingress
+      namespace: monitoring
