@@ -3,7 +3,7 @@ kind: Kustomization
 
 # Pull the core application tracking block directly from your public base
 resources:
-  - github.com/pablo-puyat/infrastructure//gitops/apps/traefik?ref=feat-monitoring
+  - github.com/pablo-puyat/infrastructure//gitops/infrastructure/traefik?ref=feat-monitoring
 
 patches:
   - target:
