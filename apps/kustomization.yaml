@@ -100,7 +100,7 @@ patches:
                   enabled: true
                   allowCrossNamespace: true
                   publishedService:
-                    enabled: true
+                    enabled: false
               globalArguments: []
     target:
       kind: Application
