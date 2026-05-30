@@ -103,18 +103,16 @@ patches:
       name: traefik
 
   - patch: |
-      - op: replace
-        path: /spec/tls/0/hosts/0
-        value: "callandor.tailcdecb.ts.net"
-      - op: replace
-        path: /spec/tls/0/secretName
-        value: "callandor-tailscale-tls"
-      - op: replace
-        path: /spec/rules/0/host
-        value: "callandor.tailcdecb.ts.net"
+      apiVersion: argoproj.io/v1alpha1
+      kind: Application
+      metadata:
+        name: monitoring
+        namespace: argocd
+      spec:
+        source:
+          repoURL: 'ssh://git@ssh.github.com:443/pablo-puyat/cluster-state.git'
+          targetRevision: main
+          path: apps/monitoring
     target:
-      group: networking.k8s.io
-      version: v1
-      kind: Ingress
-      name: grafana-ingress
-      namespace: monitoring
+      kind: Application
+      name: monitoring
