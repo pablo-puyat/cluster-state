@@ -5,7 +5,11 @@ resources:
   - github.com/pablo-puyat/infrastructure//gitops/apps?ref=feat-monitoring
 
 patches:
-  - patch: |
+  # 1. Patch Traefik to use your private Tailscale domain & certificates
+  - target:
+      kind: Application
+      name: traefik
+    patch: |
       apiVersion: argoproj.io/v1alpha1
       kind: Application
       metadata:
@@ -15,98 +19,17 @@ patches:
         source:
           helm:
             values: |
-              image:
-                tag: "3.6.13"
-              ingressClass:
-                enabled: true
-                isDefaultClass: true
-              extraObjects:
-                - apiVersion: rbac.authorization.k8s.io/v1
-                  kind: ClusterRole
-                  metadata:
-                    name: traefik-extra-permissions
-                  rules:
-                    - apiGroups: [""]
-                      resources: ["services", "endpoints", "secrets", "configmaps", "nodes"]
-                      verbs: ["get", "list", "watch"]
-                    - apiGroups: ["discovery.k8s.io"]
-                      resources: ["endpointslices"]
-                      verbs: ["get", "list", "watch"]
-                    - apiGroups: ["extensions", "networking.k8s.io"]
-                      resources: ["ingresses", "ingressclasses"]
-                      verbs: ["get", "list", "watch"]
-                    - apiGroups: ["extensions", "networking.k8s.io"]
-                      resources: ["ingresses/status"]
-                      verbs: ["update"]
-                    - apiGroups: ["rbac.authorization.k8s.io"]
-                      resources: ["clusterroles", "clusterrolebindings"]
-                      verbs: ["get", "list", "watch"]
-                      resourceNames: ["traefik-extra-permissions"]
-                - apiVersion: rbac.authorization.k8s.io/v1
-                  kind: ClusterRoleBinding
-                  metadata:
-                    name: traefik-extra-permissions
-                  roleRef:
-                    kind: ClusterRole
-                    name: traefik-extra-permissions
-                    apiGroup: rbac.authorization.k8s.io
-                  subjects:
-                    - kind: ServiceAccount
-                      name: traefik
-                      namespace: traefik
               ingressRoute:
                 dashboard:
-                  enabled: true
                   matchRule: Host(`callandor.tailcdecb.ts.net`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
-                  entryPoints: ["web", "websecure"]
                   tls:
                     secretName: callandor-tailscale-tls
-              service:
-                enabled: true
-                type: NodePort
-              additionalArguments:
-                - "--api.insecure=true"
-                - "--api.dashboard=true"
-                - "--log.level=DEBUG"
-                - "--accesslog=true"
-                - "--accesslog.format=json"
-                - "--metrics.prometheus=true"
-                - "--metrics.prometheus.entryPoint=metrics"
-                - "--providers.kubernetesingress.ingressendpoint.ip=138.201.240.46"
-                - "--providers.kubernetesingress.ingressclass=traefik"
-              ports:
-                web:
-                  port: 80
-                  exposedPort: 80
-                  entryPoints: ["web"]
-                  redirectTo:
-                    port: websecure
-                    priority: 10
-                websecure:
-                  port: 443
-                  exposedPort: 443
-                  entryPoints: ["websecure"]
-                  tls:
-                    enabled: true
-                metrics:
-                  port: 8082
-                  exposedPort: 8082
-                  entryPoints: ["metrics"]
-              providers:
-                kubernetesCRD:
-                  enabled: true
-                  allowCrossNamespace: true
-                kubernetesIngress:
-                  enabled: true
-                  allowCrossNamespace: true
-                  publishedService:
-                    enabled: false
-              globalArguments: []
-    target:
-      kind: Application
-      name: traefik
 
-  - patch: |
+  # 2. Keep your monitoring app pointing to your private cluster state repo
+  - target:
+      kind: Application
+      name: monitoring
+    patch: |
       apiVersion: argoproj.io/v1alpha1
       kind: Application
       metadata:
@@ -117,6 +40,17 @@ patches:
           repoURL: 'ssh://git@ssh.github.com:443/pablo-puyat/cluster-state.git'
           targetRevision: main
           path: apps/monitoring
-    target:
-      kind: Application
-      name: monitoring
+
+  # 3. Inject your specific bare-metal and Tailscale node IPs into MetalLB
+  - target:
+      version: v1beta1
+      group: metallb.io
+      kind: IPAddressPool
+      name: host-ip-pool
+      namespace: metallb-system
+    patch: |
+      - op: replace
+        path: /spec/addresses
+        value:
+          - 138.201.240.46/32
+          - 100.70.15.42/32
