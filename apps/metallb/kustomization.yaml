@@ -21,10 +21,16 @@ patches:
       version: v1beta1
       group: metallb.io
       kind: IPAddressPool
-      name: tailscale-ip-pool
-      namespace: metallb-system
     patch: |
-      - op: replace
-        path: /spec/addresses
+      - op: add
+        path: /-
         value:
-          - 100.70.15.42/32
+          apiVersion: metallb.io/v1beta1
+          kind: IPAddressPool
+          metadata:
+            name: tailscale-ip-pool
+            namespace: metallb-system
+          spec:
+            addresses:
+              - 100.70.15.42/32
+            autoAssign: true
