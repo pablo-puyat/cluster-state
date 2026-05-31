@@ -4,6 +4,9 @@ kind: Kustomization
 resources:
   - github.com/pablo-puyat/infrastructure//gitops/infrastructure/monitoring?ref=feat-monitoring
 
+commonAnnotations:
+  metallb.universe.tf/address-pool: tailscale-ip-pool
+
 patches:
   - patch: |
       - op: replace
@@ -21,4 +24,3 @@ patches:
       kind: Ingress
       name: grafana-ingress
       namespace: monitoring
-

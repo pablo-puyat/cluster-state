@@ -1,6 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+# 1. Pull the complete core blueprint (which now contains BOTH pools upstream)
 resources:
   - github.com/pablo-puyat/infrastructure//gitops/infrastructure/metallb?ref=feat-monitoring
 
@@ -21,16 +22,20 @@ patches:
       version: v1beta1
       group: metallb.io
       kind: IPAddressPool
+      name: tailscale-ip-pool
+      namespace: metallb-system
     patch: |
-      - op: add
-        path: /-
+      - op: replace
+        path: /spec/addresses
         value:
-          apiVersion: metallb.io/v1beta1
-          kind: IPAddressPool
-          metadata:
-            name: tailscale-ip-pool
-            namespace: metallb-system
-          spec:
-            addresses:
-              - 100.70.15.42/32
-            autoAssign: true
+          - 100.70.15.42/32
+
+  - target:
+      group: apiextensions.k8s.io
+      version: v1
+      kind: CustomResourceDefinition
+      name: (bgppeers|bgpadvertisements|communities|ipaddresspools|l2advertisements)\.metallb\.io
+    patch: |
+      - op: replace
+        path: /spec/conversion/webhook/clientConfig/caBundle
+        value: ""
