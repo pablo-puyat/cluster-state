@@ -5,10 +5,16 @@ resources:
   - github.com/pablo-puyat/infrastructure//gitops/infrastructure/monitoring?ref=feat-monitoring
 
 commonAnnotations:
-  traefik.ingress.kubernetes.io/service: traefik/traefik-private
+  traefik.ingress.kubernetes.io/service: "traefik/traefik-private"
 
 patches:
-  - patch: |
+  - target:
+      group: networking.k8s.io
+      version: v1
+      kind: Ingress
+      name: grafana-ingress
+      namespace: monitoring
+    patch: |
       - op: replace
         path: /spec/tls/0/hosts/0
         value: "callandor.tailcdecb.ts.net"
@@ -18,9 +24,3 @@ patches:
       - op: replace
         path: /spec/rules/0/host
         value: "callandor.tailcdecb.ts.net"
-    target:
-      group: networking.k8s.io
-      version: v1
-      kind: Ingress
-      name: grafana-ingress
-      namespace: monitoring
