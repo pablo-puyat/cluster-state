@@ -5,7 +5,7 @@ resources:
   - github.com/pablo-puyat/infrastructure//gitops/infrastructure/monitoring?ref=feat-monitoring
 
 commonAnnotations:
-  metallb.universe.tf/address-pool: tailscale-ip-pool
+  traefik.ingress.kubernetes.io/service: traefik/traefik-private
 
 patches:
   - patch: |
