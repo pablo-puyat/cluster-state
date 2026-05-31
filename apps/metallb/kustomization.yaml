@@ -3,7 +3,7 @@ kind: Kustomization
 
 # 1. Pull the complete core blueprint (which now contains BOTH pools upstream)
 resources:
-  - github.com/pablo-puyat/infrastructure//gitops/infrastructure/metallb?ref=main
+  - github.com/pablo-puyat/infrastructure//gitops/infrastructure/metallb?ref=feat-monitoring
 
 patches:
   - target:
