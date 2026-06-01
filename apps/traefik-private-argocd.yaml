@@ -1,20 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: root-app
+  name: traefik-private
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    # Points to your private state repository
-    repoURL: 'ssh://git@ssh.github.com:443/pablo-puyat/cluster-state.git'
-    targetRevision: HEAD
-    path: apps
+    repoURL: 'https://github.com/pablo-puyat/infrastructure.git'
+    targetRevision: feat-monitoring
+    path: gitops/infrastructure/traefik-private
+    kustomize:
+      version: v5
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: argocd
+    namespace: traefik-private
   syncPolicy:
     automated:
       prune: true
