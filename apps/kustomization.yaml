@@ -5,6 +5,7 @@ resources:
   - doppler-operator-argocd.yaml
   - cloudnative-pg-argocd.yaml
   - traefik-public-argocd.yaml
+  - traefik-private-argocd.yaml
   - metrics-server-argocd.yaml
   - metallb-argocd.yaml
   - monitoring-argocd.yaml
