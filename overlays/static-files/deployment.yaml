@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: static-files
+  namespace: static-files
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: static-files
+  template:
+    metadata:
+      labels:
+        app: static-files
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: k8s-node-primary
+      containers:
+      - name: caddy
+        image: caddy:latest
+        args: ["caddy", "file-server", "--browse", "--root", "/web", "--listen", ":80"]
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: media-storage
+          mountPath: /web
+          readOnly: true
+      volumes:
+      - name: media-storage
+        hostPath:
+          path: /var/www/vhosts/files.cbrz.dev/httpdocs
+          type: Directory
