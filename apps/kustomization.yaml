@@ -8,3 +8,4 @@ resources:
   - metrics-server-argocd.yaml
   - metallb-argocd.yaml
   - monitoring-argocd.yaml
+  - cbrz-argocd.yaml
