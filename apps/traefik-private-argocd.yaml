@@ -6,11 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/pablo-puyat/infrastructure.git'
-    targetRevision: feat-monitoring
-    path: gitops/infrastructure/traefik-private
-    kustomize:
-      version: v5
+    repoURL: 'git@github.com:pablo-puyat/cluster-state.git'
+    targetRevision: HEAD
+    path: overlays/traefik-private
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: traefik-private
