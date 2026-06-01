@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/pablo-puyat/maraming.git'
+    repoURL: 'ssh://git@ssh.github.com:443/pablo-puyat/maraming.git'
     targetRevision: main
     path: k8s/overlays/prod
   destination:

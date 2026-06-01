@@ -8,7 +8,6 @@ metadata:
 spec:
   project: default
   source:
-    # Points to your private state repository
     repoURL: 'ssh://git@ssh.github.com:443/pablo-puyat/cluster-state.git'
     targetRevision: HEAD
     path: apps
