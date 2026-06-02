@@ -6,12 +6,12 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'git@github.com:your-username/your-private-repo.git' # Private Repo
+    repoURL: 'git@github.com:pablo-puyat/cluster-state.git'
     targetRevision: HEAD
-    path: overlays/static-files # Points to your local configuration layer
+    path: overlays/static-files
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: static-files # Matches the namespace in your manifests
+    namespace: static-files
   syncPolicy:
     automated:
       prune: true
