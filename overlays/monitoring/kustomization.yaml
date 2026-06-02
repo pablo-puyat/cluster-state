@@ -1,24 +1,6 @@
-overlays/monitoring/kustomization.yaml apiVersion: kustomize.config.k8s.io/v1beta1
+apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
   - github.com/pablo-puyat/infrastructure//gitops/infrastructure/monitoring?ref=feat-monitoring
   - ingress.yaml
-
-patches:
-  - target:
-      group: networking.k8s.io
-      version: v1
-      kind: Ingress
-      name: grafana-ingress
-      namespace: monitoring
-    patch: |
-      - op: replace
-        path: /spec/tls/0/hosts/0
-        value: "callandor.tailcdecb.ts.net"
-      - op: replace
-        path: /spec/tls/0/secretName
-        value: "callandor-tailscale-tls"
-      - op: replace
-        path: /spec/rules/0/host
-        value: "callandor.tailcdecb.ts.net"
