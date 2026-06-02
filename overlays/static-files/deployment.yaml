@@ -14,7 +14,7 @@ spec:
         app: static-files
     spec:
       nodeSelector:
-        kubernetes.io/hostname: k8s-node-primary
+        kubernetes.io/hostname: callandor
       containers:
       - name: caddy
         image: caddy:latest
