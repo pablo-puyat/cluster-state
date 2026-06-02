@@ -7,7 +7,6 @@ resources:
   - doppler-operator-argocd.yaml
   - metallb-argocd.yaml
   - metrics-server-argocd.yaml
-  - monitoring-argocd.yaml
   - static-files-argocd.yaml
   - traefik-private-argocd.yaml
   - traefik-public-argocd.yaml
