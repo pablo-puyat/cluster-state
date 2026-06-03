@@ -3,3 +3,4 @@ kind: Kustomization
 
 resources:
   - github.com/pablo-puyat/infrastructure//gitops/infrastructure/monitoring?ref=feat-monitoring
+
