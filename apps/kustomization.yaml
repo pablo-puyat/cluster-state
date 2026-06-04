@@ -24,3 +24,12 @@ patches:
       - op: add
         path: /spec/template/spec/dnsPolicy
         value: ClusterFirstWithHostNet
+  - target:
+        kind: ConfigMap
+        name: argocd-cm
+        namespace: argocd
+    patch: |
+      - op: add
+        path: /data
+        value:
+          kustomize.buildOptions: "--enable-helm"
