@@ -11,3 +11,16 @@ resources:
   - static-files-argocd.yaml
   - traefik-private-argocd.yaml
   - traefik-public-argocd.yaml
+
+patches:
+  - target:
+      kind: Deployment
+      name: argocd-repo-server
+      namespace: argocd
+    patch: |
+      - op: add
+        path: /spec/template/spec/hostNetwork
+        value: true
+      - op: add
+        path: /spec/template/spec/dnsPolicy
+        value: ClusterFirstWithHostNet
