@@ -1,16 +1,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: root-app
+  name: argo-cd-infrastructure
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: 'git@github.com:pablo-puyat/cluster-state.git'
-    targetRevision: HEAD
-    path: apps
+    repoURL: 'https://argoproj.github.io/argo-helm'
+    chart: argo-cd
+    targetRevision: 9.x.x
+    helm:
+      version: v3
+      values: |
+        repoServer:
+          hostNetwork: true
+          dnsPolicy: ClusterFirstWithHostNet
+        configs:
+          cm:
+            kustomize.buildOptions: "--enable-helm"
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: argocd
@@ -18,5 +25,3 @@ spec:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
