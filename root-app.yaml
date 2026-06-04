@@ -12,9 +12,6 @@ spec:
     helm:
       version: v3
       values: |
-        repoServer:
-          hostNetwork: true
-          dnsPolicy: ClusterFirstWithHostNet
         configs:
           cm:
             kustomize.buildOptions: "--enable-helm"
