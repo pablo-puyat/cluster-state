@@ -1,0 +1,36 @@
+image:
+  tag: "3.6.13"
+
+deployment:
+  kind: Deployment
+  replicas: 1
+  strategy:
+    type: Recreate
+
+service:
+  enabled: true
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+
+ports:
+  web:
+    port: 80
+    exposedPort: 80
+  metrics:
+    port: 8082
+    exposedPort: 8082
+
+providers:
+  kubernetesCRD:
+    enabled: true
+    allowCrossNamespace: true
+  kubernetesIngress:
+    enabled: true
+    ingressClass: traefik
+    ingressEndpoint:
+      publishedService: "traefik/traefik"
+
+ingressClass:
+  enabled: true
+  isDefaultClass: true
+  name: traefik

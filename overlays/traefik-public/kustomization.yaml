@@ -1,5 +1,13 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+helmCharts:
+  - name: traefik
+    repo: https://traefik.github.io/charts
+    version: 28.0.0
+    releaseName: traefik-private
+    valuesFile: values.yaml
+
 resources:
-  - github.com/pablo-puyat/infrastructure//gitops/infrastructure/traefik-public?ref=feat-monitoring
+  - traefik-clusterrole.yaml
+  - traefik-clusterrolebinding.yaml

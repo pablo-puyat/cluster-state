@@ -12,4 +12,5 @@ helmCharts:
     valuesFile: values.yaml
 
 resources:
-  - github.com/pablo-puyat/infrastructure//gitops/infrastructure/traefik-private?ref=feat-monitoring
+  - traefik-clusterrole.yaml
+  - traefik-clusterrolebinding.yaml
