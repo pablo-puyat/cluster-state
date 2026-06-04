@@ -13,6 +13,7 @@ resources:
   - traefik-public-argocd.yaml
 
 patches:
+  # 1. Network fix: JSON patch works great here for exact pod spec injection
   - target:
       kind: Deployment
       name: argocd-repo-server
@@ -24,12 +25,16 @@ patches:
       - op: add
         path: /spec/template/spec/dnsPolicy
         value: ClusterFirstWithHostNet
+
+  # 2. Helm fix: Strategic merge patch to cleanly add/update the buildOptions
   - target:
-        kind: ConfigMap
-        name: argocd-cm
-        namespace: argocd
+      kind: ConfigMap
+      name: argocd-cm
+      namespace: argocd
     patch: |
-      - op: add
-        path: /data
-        value:
-          kustomize.buildOptions: "--enable-helm"
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: argocd-cm
+      data:
+        kustomize.buildOptions: "--enable-helm"
