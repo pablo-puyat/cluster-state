@@ -16,8 +16,14 @@ service:
       metallb.universe.tf/address-pool: "tailscale-ip-pool"
 
 ports:
+  web:
+    expose:
+      enabled: false
   websecure:
-    port: 443
+    port: 443          # This is the port on the LoadBalancer Service
+    exposedPort: 443   # Expose 443 publicly
+    expose:
+      enabled: true
 
 api:
   dashboard: true
