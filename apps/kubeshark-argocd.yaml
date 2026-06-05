@@ -11,7 +11,7 @@ spec:
     chart: kubeshark
     helm:
       valueFiles:
-        - ../overlays/kubeshark/values.yaml
+        - /overlays/kubeshark/values.yaml
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: kubeshark # Ensure this namespace exists
