@@ -5,6 +5,7 @@ resources:
   - cbrz-argocd.yaml
   - cloudnative-pg-argocd.yaml
   - doppler-operator-argocd.yaml
+  - kubeshark-argocd.yaml
   - metallb-argocd.yaml
   - metrics-server-argocd.yaml
   - monitoring-argocd.yaml
