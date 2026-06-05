@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://helm.kubeshark.co'
+    repoURL: 'https://helm.kubeshark.com'
     targetRevision: 53.3.0
     chart: kubeshark
     helm:
