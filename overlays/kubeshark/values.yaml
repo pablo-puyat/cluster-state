@@ -1,0 +1,15 @@
+tap:
+  regex: argocd-repo-server.*
+  namespaces:
+    - argocd
+  excludedNamespaces:
+    - kube-system
+
+  capture:
+    dissection:
+      enabled: true
+      stopAfter: 5m
+    raw:
+      enabled: true
+      storageSize: 2Gi
+    dbMaxSize: 500Mi
