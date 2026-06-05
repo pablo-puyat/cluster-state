@@ -2,20 +2,25 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: kubeshark
-  namespace: argocd # Assuming ArgoCD is in this namespace
+  namespace: argocd
 spec:
   project: default
-  source:
-    repoURL: 'https://helm.kubeshark.com'
-    targetRevision: 53.3.0
-    chart: kubeshark
-    helm:
-      valueFiles:
-        - overlays/kubeshark/values.yaml
+  sources:
+    - repoURL: 'git@github.com:pablo-puyat/cluster-state.git'
+      targetRevision: HEAD
+      ref: values
+    - repoURL: 'https://helm.kubeshark.com'
+      chart: kubeshark
+      targetRevision: 53.3.0
+      helm:
+        valueFiles:
+          - $values/overlays/kubeshark/values.yaml
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: kubeshark # Ensure this namespace exists
+    namespace: kubeshark
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
