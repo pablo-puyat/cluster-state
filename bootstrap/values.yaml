@@ -1,10 +1,3 @@
 configs:
   cm:
     kustomize.buildOptions: "--enable-helm"
-    reposerver.git.request.timeout: "5s"
-    controller.repo.server.timeout.seconds: "10"
-
-repoServer:
-  env:
-    - name: ARGOCD_EXEC_TIMEOUT
-      value: "10s"
