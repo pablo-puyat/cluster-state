@@ -11,10 +11,8 @@ spec:
     targetRevision: 9.5.7
     helm:
       version: v3
-      values: |
-        configs:
-          cm:
-            kustomize.buildOptions: "--enable-helm"
+      valueFiles:
+        - values.yaml
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: argocd
