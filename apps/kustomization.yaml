@@ -10,5 +10,5 @@ resources:
   - metrics-server-argocd.yaml
   - monitoring-argocd.yaml
   - static-files-argocd.yaml
-  - traefik-private-argocd.yaml
+  # - traefik-private-argocd.yaml
   - traefik-public-argocd.yaml
