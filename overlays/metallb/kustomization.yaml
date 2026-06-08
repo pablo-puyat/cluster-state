@@ -1,30 +1,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+helmCharts:
+  - name: traefik
+    repo: https://metallb.github.io/metallb'
+    version: 0.16.1
+    releaseName: metallb
+
 resources:
-  - github.com/pablo-puyat/infrastructure//gitops/infrastructure/metallb?ref=feat-monitoring
-
-patches:
-  - target:
-      version: v1beta1
-      group: metallb.io
-      kind: IPAddressPool
-      name: host-ip-pool
-      namespace: metallb-system
-    patch: |
-      - op: replace
-        path: /spec/addresses
-        value:
-          - 138.201.240.46/32
-
-  - target:
-      version: v1beta1
-      group: metallb.io
-      kind: IPAddressPool
-      name: tailscale-ip-pool
-      namespace: metallb-system
-    patch: |
-      - op: replace
-        path: /spec/addresses
-        value:
-          - 100.70.15.42/32
+  - l2-advertisment.yaml
