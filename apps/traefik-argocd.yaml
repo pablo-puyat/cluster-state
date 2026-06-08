@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: 'git@github.com:pablo-puyat/cluster-state.git'
     targetRevision: HEAD
-    path: overlays/traefik-public
+    path: overlays/traefik
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: traefik
