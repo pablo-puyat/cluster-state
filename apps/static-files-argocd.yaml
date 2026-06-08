@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: static-files
-  namespace: argocd
+  namespace: static-files
 spec:
   project: default
   source:
