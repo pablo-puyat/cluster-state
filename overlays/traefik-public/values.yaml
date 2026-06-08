@@ -27,3 +27,5 @@ gateway:
     web:
       namespacePolicy:
         from: All
+dashboard:
+  enabled: true
