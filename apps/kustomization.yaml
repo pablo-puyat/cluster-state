@@ -12,3 +12,4 @@ resources:
   - static-files-argocd.yaml
   # - traefik-private-argocd.yaml
   - traefik-public-argocd.yaml
+  - traefik-crds-argocd.yaml
