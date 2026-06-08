@@ -7,5 +7,6 @@ resources:
   - metrics-server-argocd.yaml
   - metallb-argocd.yaml
   - monitoring-argocd.yaml
+  - monitoring-crds-argocd.yaml
   - static-files-argocd.yaml
   - traefik-argocd.yaml
