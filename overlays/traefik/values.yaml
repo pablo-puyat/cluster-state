@@ -1,7 +1,7 @@
 ingressRoute:
   dashboard:
     enabled: true
-    matchRule: Host(`barista503.cbrz.app`)
+    matchRule: Host(`traefik.cbrz.dev`)
     entryPoints:
       - web
 providers:
