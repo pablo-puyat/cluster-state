@@ -8,9 +8,20 @@ spec:
   source:
     repoURL: https://prometheus-community.github.io/helm-charts
     chart: kube-prometheus-stack
-    targetRevision: 86.1.0
-    directory:
-      recurse: true
+    targetRevision: 69.4.2 # Ensure this version exists for this chart
+    helm:
+      parameters:
+        - name: crds.enabled
+          value: "true"
+        # Disable everything else so it ONLY installs CRDs
+        - name: alertmanager.enabled
+          value: "false"
+        - name: grafana.enabled
+          value: "false"
+        - name: prometheus.enabled
+          value: "false"
+        - name: prometheusOperator.enabled
+          value: "false"
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: monitoring
