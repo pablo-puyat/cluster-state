@@ -1,9 +1,0 @@
-source:
-  repoURL: 'https://argoproj.github.io/argo-helm'
-  chart: argo-cd
-  targetRevision: 9.5.7
-
-# Your configuration overrides
-configs:
-  cm:
-    kustomize.buildOptions: "--enable-helm"
