@@ -1,14 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: metallb
+  name: kubeshark
   namespace: argocd
 spec:
   project: default
-  source:
-    repoURL: 'git@github.com:pablo-puyat/cluster-state.git'
-    targetRevision: HEAD
-    path: overlays/metallb
+  sources:
+    - repoURL: 'git@github.com:pablo-puyat/cluster-state.git'
+      targetRevision: HEAD
+      ref: values
+    - repoURL: 'https://metallb.github.io/metallb'
+      chart: metallb
+      helm:
+        valueFiles:
+          - $values/overlays/metallb/values.yaml
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: metallb-system
@@ -16,6 +21,8 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
   ignoreDifferences:
       - group: apiextensions.k8s.io
         kind: CustomResourceDefinition
