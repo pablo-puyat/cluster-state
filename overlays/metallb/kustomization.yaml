@@ -8,3 +8,4 @@ helmCharts:
 
 resources:
   - l2-advertisment.yaml
+  - ip-address-pool.yaml
