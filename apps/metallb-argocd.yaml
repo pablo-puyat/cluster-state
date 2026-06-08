@@ -11,7 +11,7 @@ spec:
     path: overlays/metallb
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: metallb-system
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true
