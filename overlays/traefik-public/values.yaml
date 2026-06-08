@@ -34,7 +34,3 @@ ingressClass:
   enabled: true
   isDefaultClass: true
   name: traefik
-
-crds:
-  enabled: true
-  standardKubernetes: true
