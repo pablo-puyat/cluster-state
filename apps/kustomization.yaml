@@ -2,10 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - cloudnative-pg-argocd.yaml
   - doppler-operator-argocd.yaml
   - kubeshark-argocd.yaml
   - metallb-argocd.yaml
-  - metrics-server-argocd.yaml
-  - static-files-argocd.yaml
   - traefik-public-argocd.yaml
