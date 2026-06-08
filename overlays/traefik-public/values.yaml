@@ -12,11 +12,6 @@ providers:
   kubernetesCRD:
     enabled: true
     allowCrossNamespace: true
-  kubernetesIngress:
-    enabled: true
-    ingressClass: traefik
-    ingressEndpoint:
-      publishedService: "traefik/traefik"
 ingressClass:
   enabled: true
   isDefaultClass: true
