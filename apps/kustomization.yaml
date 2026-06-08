@@ -4,5 +4,7 @@ kind: Kustomization
 resources:
   - doppler-operator-argocd.yaml
   - kubeshark-argocd.yaml
+  - metrics-server-argocd.yaml
   - metallb-argocd.yaml
+  - static-files-argocd.yaml
   - traefik-argocd.yaml
