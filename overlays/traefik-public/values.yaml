@@ -6,12 +6,6 @@ deployment:
   replicas: 1
   strategy:
     type: Recreate
-
-ports:
-  web:
-    port: 80
-    exposedPort: 80
-
 providers:
   kubernetesGateway:
     enabled: true
@@ -23,19 +17,16 @@ providers:
     ingressClass: traefik
     ingressEndpoint:
       publishedService: "traefik/traefik"
-
 ingressClass:
   enabled: true
   isDefaultClass: true
   name: traefik
-
 ingressRoute:
   dashboard:
     enabled: true
     matchRule: Host(`barista503.cbrz.app`)
     entryPoints:
       - web
-
 gateway:
   listeners:
     web:
