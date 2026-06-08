@@ -6,4 +6,4 @@ metadata:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   addresses:
-  - 138.201.240.46
+  - 138.201.240.46/32
