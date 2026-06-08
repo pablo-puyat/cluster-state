@@ -5,14 +5,10 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  sources: # Use 'sources' (plural) for multi-source
-    - repoURL: https://traefik.github.io/charts
-      chart: traefik
-      targetRevision: 33.1.0
-    - repoURL: 'git@github.com:pablo-puyat/cluster-state.git'
-      targetRevision: HEAD
-      path: overlays/traefik-public
   source:
+    repoURL: 'git@github.com:pablo-puyat/cluster-state.git'
+    targetRevision: HEAD
+    path: overlays/traefik-public
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: traefik
@@ -23,6 +19,3 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
-  helm:
-    valueFiles:
-      - $values-repo/overlays/traefik-public/values.yaml
