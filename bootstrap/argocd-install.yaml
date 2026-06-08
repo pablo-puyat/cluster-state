@@ -6,11 +6,10 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://argoproj.github.io/argo-helm'
-    chart: argo-cd
-    targetRevision: 9.5.7
+    repoURL: 'git@github.com:pablo-puyat/cluster-state.git'
+    targetRevision: HEAD
+    path: bootstrap # The directory containing your values.yaml
     helm:
-      version: v3
       valueFiles:
         - values.yaml
   destination:
