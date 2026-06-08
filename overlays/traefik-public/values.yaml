@@ -7,20 +7,14 @@ deployment:
   strategy:
     type: Recreate
 
-service:
-  enabled: true
-  type: LoadBalancer
-  externalTrafficPolicy: Local
-
 ports:
   web:
     port: 80
     exposedPort: 80
-  metrics:
-    port: 8082
-    exposedPort: 8082
 
 providers:
+  kubernetesGateway:
+    enabled: true
   kubernetesCRD:
     enabled: true
     allowCrossNamespace: true
@@ -34,3 +28,15 @@ ingressClass:
   enabled: true
   isDefaultClass: true
   name: traefik
+
+ingressRoute:
+  dashboard:
+    enabled: true
+    matchRule: Host(`dashboard.localhost`)
+    entryPoints:
+      - web
+gateway:
+  listeners:
+    web:
+      namespacePolicy:
+        from: All
