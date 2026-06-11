@@ -3,7 +3,7 @@ kind: Kustomization
 
 resources:
   - infrastructure/storage-provisioner.yaml
-  - cbrz-argocd.yaml
+  #- cbrz-argocd.yaml
   - cnpg-argocd.yaml
   - doppler-operator-argocd.yaml
   - kubeshark-argocd.yaml
