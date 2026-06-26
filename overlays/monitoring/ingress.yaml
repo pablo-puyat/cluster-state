@@ -9,12 +9,12 @@ metadata:
     #metallb.io/address-pool: ip-address-pool-tailscale
 spec:
   ingressClassName: traefik
-  tls:
-  - hosts:
-    - callandor.tailcdecb.ts.net
-    secretName: callandor-tailscale-tls
+  #tls:
+  #- hosts:
+  #  - callandor.tailcdecb.ts.net
+  #  secretName: callandor-tailscale-tls
   rules:
-  - host: callandor.tailcdecb.ts.net
+  - host: cbrz.dev
     http:
       paths:
       - path: /grafana
