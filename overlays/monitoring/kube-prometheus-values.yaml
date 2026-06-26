@@ -3,10 +3,10 @@ prometheus:
     retention: 30d
 
 grafana:
-  #admin:
-  #  existingSecret: grafana-admin-creds
-  #  userKey: admin-user
-  #  passwordKey: admin-password
+  admin:
+    existingSecret: monitoring-grafana
+    userKey: admin-user
+    passwordKey: admin-password
 
   grafana.ini:
     server:
