@@ -3,7 +3,6 @@ kind: Service
 metadata:
   name: static-files-service
   namespace: static-files
-  metallb.io/address-pool: ip-address-pool
 spec:
   selector:
     app: static-files
