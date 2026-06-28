@@ -9,5 +9,3 @@ helmCharts:
 resources:
   - l2-advertisment.yaml
   - ip-address-pool.yaml
-  #- l2-advertisment-tailscale.yaml
-  #- ip-address-pool-tailscale.yaml

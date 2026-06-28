@@ -6,13 +6,8 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
-    #metallb.io/address-pool: ip-address-pool-tailscale
 spec:
   ingressClassName: traefik
-  #tls:
-  #- hosts:
-  #  - callandor.tailcdecb.ts.net
-  #  secretName: callandor-tailscale-tls
   rules:
   - host: cbrz.dev
     http:

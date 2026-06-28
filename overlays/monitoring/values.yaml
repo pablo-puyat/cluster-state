@@ -1,6 +1,6 @@
 crds:
-  enabled: true
+  enabled: "true"
 prometheus:
-  enabled: true
+  enabled: "true"
 grafana:
-  enabled: true
+  enabled: "true"
