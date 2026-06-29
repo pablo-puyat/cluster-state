@@ -8,10 +8,10 @@ spec:
   source:
     repoURL: 'https://github.com/rancher/local-path-provisioner.git'
     path: deploy
-    targetRevision: master # Or a specific tag/commit
+    targetRevision: master
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: local-path-storage # Ensure this namespace is created!
+    namespace: local-path-storage
   syncPolicy:
     automated:
       prune: true
